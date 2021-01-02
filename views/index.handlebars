@@ -1,0 +1,66 @@
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 50%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+
+<form action="/" method="POST">
+
+    <div class="GamerData">
+
+        <label for="gamer">Username:</label>
+        <input type="text" name="fullName"></input>
+
+    </div>
+    <br>
+    <div class="GamerData">
+        <label for="email">Gamer Email:</label>
+        <input type="text" name="email"></input>
+        <br>
+    </div>
+    <br>
+    <div class="GamerData">
+        <label for="bio">Favorite Game:</label>
+        <input type="text" name="favGame"></input>
+        <br>
+    </div>
+    <br>
+    <div class="GamerData">
+        <label for="bio">Gamer Biography:</label>
+        <textarea type="text" name="bio"></textarea>
+        <br>
+    </div>
+    <br>
+    <button type="submit">Add User</button>
+
+</form>
+<br>
+<br>
+<h3> Current Registered Gamers</h3>
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Favorite Game</th>
+    </tr>
+    {{#each users}}
+    <tr class="users">
+        <td><a href="/{{id}}">{{fullName}}</a></td>
+        <td>{{favGame}}</td>
+    </tr>
+    {{/each}}
+</table>

@@ -1,0 +1,51 @@
+<h4>Gamer Breakdown: {{user.fullName}}</h4>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Email</th>
+        <th>Biography</th>
+        <th>Favorite Game</th>
+    </tr>
+    <tr class="users">
+        <td><a href="/{{id}}">{{user.fullName}}</a></td>
+        <td>{{user.email}}</td>
+        <td>{{user.bio}}</td>
+        <td><a href="/{{favGame}}">{{user.favGame}}</a></td>
+    </tr>
+</table>
+<br>
+<h4>{{user.fullName}}'s Games</h4>
+<table>
+    <tr>
+        <th>User</th>
+        <th>Email</th>
+        <th>Biography</th>
+        <th>Favorite Game</th>
+    </tr>
+    <tr class="users">
+        <td><a href="/{{id}}">{{user.fullName}}</a></td>
+        <td>{{user.email}}</td>
+        <td>{{user.bio}}</td>
+        <td><a href="/{{favGame}}">{{user.favGame}}</a></td>
+    </tr>
+</table>
