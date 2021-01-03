@@ -36,16 +36,25 @@
 <br>
 <h4>{{user.fullName}}'s Games</h4>
 <table>
-    <tr>
-        <th>User</th>
-        <th>Email</th>
-        <th>Biography</th>
-        <th>Favorite Game</th>
-    </tr>
-    <tr class="users">
-        <td><a href="/{{id}}">{{user.fullName}}</a></td>
-        <td>{{user.email}}</td>
-        <td>{{user.bio}}</td>
+    <tr class="games">
         <td><a href="/{{favGame}}">{{user.favGame}}</a></td>
+        <td>{{title.gameTitle}}</td>
+        {{#each games}}
+        <p> {{user.fullName}}is this working {{title.gameTitle}}</p>
     </tr>
+    {{/each}}
 </table>
+
+<form action="/games" method="POST">
+
+    <div class="GamerData">
+
+        <label for="games">Game Name:</label>
+        <input type="text" name="gameTitle"></input>
+        <label for="game">Game YR:</label>
+        <input type="text" name="gameYR"></input>
+        <label for="gamer">Rating</label>
+        <input type="text" name="rating"></input>
+    </div>
+    <button type="submit">Add Game</button>
+</form>

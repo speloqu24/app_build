@@ -46,6 +46,20 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/games", (req, res) => {
+  connection.query(
+    "SELECT * FROM games WHERE gameTitle = ?",
+    [req.body.gameTitle],
+    console.log("this is the gametitle data" + gameTitle),
+    (err, data) => {
+      if (err) {
+        res.redirect("/");
+      }
+      res.render("gamerinfo", { title: data[0] });
+    }
+  );
+});
+
 // view route for all listed gamers
 app.get("/:id", (req, res) => {
   connection.query(
@@ -53,20 +67,10 @@ app.get("/:id", (req, res) => {
     [req.params.id],
     (err, data) => {
       if (err) throw err;
-      console.log(data);
+      // console.log(data);
       res.render("gamerinfo", { user: data[0] });
     }
   );
-});
-
-app.get("/games", (req, res) => {
-  connection.query("SELECT * FROM games", (err, data) => {
-    if (err) {
-      console.log("games page");
-      res.status(500).end();
-    }
-    res.render("fullGameList", { games: data[0] });
-  });
 });
 
 app.post("/", (req, res) => {
@@ -76,6 +80,17 @@ app.post("/", (req, res) => {
     // , email, bio
     // , req.body.email , req.body.bio
     [req.body.fullName, req.body.email, req.body.bio, req.body.favGame],
+    (err, result) => {
+      if (err) throw err;
+      res.redirect("/");
+    }
+  );
+});
+
+app.post("/games", (req, res) => {
+  connection.query(
+    "INSERT INTO games (gameTitle, gameYR, rating) VALUES (?, ?, ?)",
+    [req.body.gameTitle, req.body.gameYR, req.body.rating],
     (err, result) => {
       if (err) throw err;
       res.redirect("/");
