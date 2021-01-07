@@ -1,7 +1,7 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
 const mysql = require("mysql");
-// const { endianness } = require("os");
+const multer = require("multer");
 const path = require("path");
 
 const app = express();
@@ -16,6 +16,7 @@ app.use(express.json());
 //Handlebars
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.use(express.static("public"));
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.set("view engine", "handlebars");
 
 const connection = mysql.createConnection({
@@ -36,31 +37,38 @@ connection.connect((err) => {
 });
 
 //ROUTES
-// view route, HOME PAGE
+
+//HOME PAGE
 app.get("/", (req, res) => {
   connection.query("SELECT * FROM users", (err, data) => {
     if (err) {
       return res.status(500).end();
     }
-    res.render("index", { users: data });
+    res.render("index");
   });
 });
 
-app.get("/games", (req, res) => {
-  connection.query(
-    "SELECT * FROM games WHERE gameTitle = ?",
-    [req.body.gameTitle],
-    console.log("this is the gametitle data" + gameTitle),
-    (err, data) => {
-      if (err) {
-        res.redirect("/");
-      }
-      res.render("gamerinfo", { title: data[0] });
+//ALL USERS PAGE ROUTE
+app.get("/users", (req, res) => {
+  connection.query("SELECT * FROM users", (err, data) => {
+    if (err) {
+      return res.status(500).end();
     }
-  );
+    res.render("users", { users: data });
+  });
 });
 
-// view route for all listed gamers
+//GAMES PAGE ROUTE
+app.get("/games", (req, res) => {
+  connection.query("SELECT * FROM games", (err, data) => {
+    if (err) {
+      return res.status(500).end();
+    }
+    res.render("games", { games: data });
+  });
+});
+
+// INDIVIDUAL USERS ROUTE
 app.get("/:id", (req, res) => {
   connection.query(
     "SELECT * FROM users WHERE id = ?",
@@ -73,6 +81,7 @@ app.get("/:id", (req, res) => {
   );
 });
 
+// POST USER INFO TO USERS TABLE
 app.post("/", (req, res) => {
   connection.query(
     "INSERT INTO users (fullName, email, bio, favGame) VALUES (?, ?, ?, ?)",
@@ -87,15 +96,69 @@ app.post("/", (req, res) => {
   );
 });
 
+// POST GAMES INFO TO GAMES TABLE
 app.post("/games", (req, res) => {
   connection.query(
     "INSERT INTO games (gameTitle, gameYR, rating) VALUES (?, ?, ?)",
     [req.body.gameTitle, req.body.gameYR, req.body.rating],
     (err, result) => {
       if (err) throw err;
-      res.redirect("/");
+      res.redirect("/games");
     }
   );
+});
+
+// MULTER IMAGE STORAGE - DOESN'T WORK
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+// MULTER UPLOAD ROUTE
+
+app.post("/upload", upload.single("image"), (req, res, next) => {
+  if (!req.file) {
+    message = "Error!";
+    res.render("/users");
+  } else {
+    connection.query(
+      "INSERT INTO uploads (filename, size) VALUES ('" +
+        req.file.filename +
+        "', '" +
+        req.file.mimetype +
+        "', '" +
+        req.file.size +
+        "')",
+      (err, result) => {
+        if (err) throw err;
+        res.redirect("/games");
+      }
+    );
+  }
+
+  // try {
+  //   return res.status(201).json({
+  //     message: "File uploaded!",
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  // }
 });
 
 app.listen(PORT, () =>

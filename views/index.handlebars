@@ -1,4 +1,4 @@
-<style>
+{{!-- <style>
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -15,7 +15,7 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
-</style>
+</style> --}}
 
 
 <form action="/" method="POST">
@@ -45,12 +45,19 @@
         <br>
     </div>
     <br>
-    <button type="submit">Add User</button>
 
+    <div>
+        <label>Select your profile picture:</label> <input type="file" name="image" />
+    </div>
+    {{!-- <div>
+        <input type="submit" name="btn_upload_profile_pic" value="Upload" />
+    </div> --}}
+
+    <button type="submit">Add User</button>
 </form>
 <br>
 <br>
-<h3> Current Registered Gamers</h3>
+{{!-- <h3> Current Registered Gamers</h3>
 
 <table>
     <tr>
@@ -63,4 +70,4 @@
         <td>{{favGame}}</td>
     </tr>
     {{/each}}
-</table>
+</table> --}}

@@ -1,0 +1,40 @@
+<form action="/games" method="POST">
+
+    <div class="GamerData">
+        <label for="games">Game Name:</label>
+        <input type="text" name="gameTitle"></input>
+        <label for="game">Game YR:</label>
+        <input type="text" name="gameYR"></input>
+        <label for="gamer">Rating</label>
+        <input type="text" name="rating"></input>
+    </div>
+    <br>
+    <button type="submit">Add Game</button>
+</form>
+
+<br>
+<br>
+<br>
+
+<h3> GAMES </h3>
+<table>
+    <tr>
+        <th>New Games</th>
+    </tr>
+    {{#each games}}
+    <tr class="games">
+        <td>{{gameTitle}}</td>
+    </tr>
+    {{/each}}
+</table>
+<br>
+<table>
+    <tr>
+        <th>Favorite GAMES</th>
+    </tr>
+    {{#each users}}
+    <tr class="users">
+        <td>{{favGame}}</td>
+    </tr>
+    {{/each}}
+</table>

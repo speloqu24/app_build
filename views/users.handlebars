@@ -1,0 +1,24 @@
+<h3> Current Registered Gamers</h3>
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Favorite Game</th>
+    </tr>
+    {{#each users}}
+    <tr class="users">
+        <td><a href="/{{id}}">{{fullName}}</a></td>
+        <td>{{favGame}}</td>
+    </tr>
+    {{/each}}
+</table>
+
+<form method="POST" action="/upload" enctype="multipart/form-data">
+    <div>
+        <label>Select your profile picture:</label> <input type="file" name="image" />
+    </div>
+    <div>
+        <input type="submit" name="btn_upload_profile_pic" value="Upload" />
+    </div>
+
+</form>

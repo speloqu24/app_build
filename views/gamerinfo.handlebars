@@ -1,6 +1,8 @@
+{{!-- DISPLAYS INDIVIDUAL GAMER INFO --}}
+
 <h4>Gamer Breakdown: {{user.fullName}}</h4>
 
-<style>
+{{!-- <style>
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -17,7 +19,7 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
-</style>
+</style> --}}
 
 <table>
     <tr>
@@ -38,17 +40,15 @@
 <table>
     <tr class="games">
         <td><a href="/{{favGame}}">{{user.favGame}}</a></td>
-        <td>{{title.gameTitle}}</td>
         {{#each games}}
-        <p> {{user.fullName}}is this working {{title.gameTitle}}</p>
+        <td>{{title.gameTitle}}</td>
+        {{/each}}
     </tr>
-    {{/each}}
 </table>
-
+<br>
 <form action="/games" method="POST">
 
     <div class="GamerData">
-
         <label for="games">Game Name:</label>
         <input type="text" name="gameTitle"></input>
         <label for="game">Game YR:</label>
@@ -56,5 +56,6 @@
         <label for="gamer">Rating</label>
         <input type="text" name="rating"></input>
     </div>
+    <br>
     <button type="submit">Add Game</button>
 </form>
